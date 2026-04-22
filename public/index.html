@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cc · Composable Coordination</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">cc</p>
+        <h1>Composable coordination for small-group reasoning</h1>
+      </div>
+      <div class="topbar-meta">
+        <span id="connection-state" class="status-chip status-chip--neutral">Connecting</span>
+        <span id="route-state" class="status-chip status-chip--neutral">operator</span>
+      </div>
+    </header>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <main class="layout">
+      <section class="panel panel--operator">
+        <div class="panel-header">
+          <div>
+            <p class="section-label">Operator surface</p>
+            <h2>Cycle management</h2>
+          </div>
+          <button id="refresh-cycles" class="ghost-button">Refresh</button>
+        </div>
+
+        <form id="create-cycle-form" class="stacked-form">
+          <div class="field-grid">
+            <label>
+              <span>Title</span>
+              <input name="title" required placeholder="Housing policy tradeoffs" />
+            </label>
+            <label>
+              <span>Condition</span>
+              <select name="condition">
+                <option value="intervention">Intervention</option>
+                <option value="baseline_thread">Baseline thread</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            <span>Prompt</span>
+            <textarea name="prompt" rows="4" required placeholder="What tradeoffs should this group weigh?"></textarea>
+          </label>
+          <label>
+            <span>Participants</span>
+            <textarea
+              name="participants"
+              rows="5"
+              required
+              placeholder="p1,Alice&#10;p2,Bob&#10;p3,Carol"
+            ></textarea>
+          </label>
+          <div class="field-grid">
+            <label>
+              <span>Max digest items</span>
+              <input name="maxDigestItems" type="number" min="1" max="12" value="4" />
+            </label>
+            <label>
+              <span>Max bridge items</span>
+              <input name="maxBridgeItems" type="number" min="0" max="4" value="1" />
+            </label>
+          </div>
+          <button type="submit">Create cycle</button>
+        </form>
+
+        <div class="operator-body">
+          <aside>
+            <div id="cycle-list" class="list"></div>
+          </aside>
+          <section id="operator-detail" class="detail-card empty-state">
+            Select or create a cycle.
+          </section>
+        </div>
+      </section>
+
+      <section class="panel panel--participant">
+        <div class="panel-header">
+          <div>
+            <p class="section-label">Participant surface</p>
+            <h2>Prompt, digest, thread, response</h2>
+          </div>
+        </div>
+
+        <div class="participant-toolbar">
+          <label>
+            <span>Cycle</span>
+            <select id="participant-cycle-select"></select>
+          </label>
+          <label>
+            <span>Participant</span>
+            <select id="participant-select"></select>
+          </label>
+          <button id="load-participant-view">Load view</button>
+        </div>
+
+        <section id="participant-detail" class="detail-card empty-state">
+          Pick a cycle and participant to load the canonical participant view.
+        </section>
+      </section>
+    </main>
+
+    <template id="cycle-card-template">
+      <article class="list-card">
+        <div>
+          <h3 data-role="title"></h3>
+          <p data-role="meta"></p>
+        </div>
+        <div class="card-chips">
+          <span data-role="condition"></span>
+          <span data-role="status"></span>
+        </div>
+      </article>
+    </template>
+
+    <template id="digest-item-template">
+      <article class="digest-item">
+        <div class="digest-item__header">
+          <div>
+            <h4 data-role="author"></h4>
+            <p data-role="reason"></p>
+          </div>
+          <span data-role="bridge"></span>
+        </div>
+        <p data-role="body"></p>
+        <div class="digest-item__actions">
+          <button data-action="open-item" type="button">Open item</button>
+          <button data-action="toggle-explanation" type="button">Explanation</button>
+          <button data-action="reply" type="button">Reply</button>
+        </div>
+        <div data-role="explanation" class="explanation" hidden></div>
+      </article>
+    </template>
+
+    <template id="audit-item-template">
+      <li class="audit-item">
+        <strong data-role="action"></strong>
+        <span data-role="meta"></span>
+      </li>
+    </template>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
