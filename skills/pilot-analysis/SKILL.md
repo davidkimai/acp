@@ -3,30 +3,42 @@ name: pilot-analysis
 description: Use this skill when you need to compute or inspect ACP metrics, telemetry, or export outputs for intervention and baseline cycles.
 ---
 
-# When to use this skill
+# What this block is for
 
-Use this skill for metric review, cycle export inspection, and condition comparison.
+Use this block for metric review, cycle export inspection, and condition comparison.
 
-# When not to use this skill
+# When to use this block
 
-Do not use this skill to manage lifecycle transitions or author participant content.
+Use this block when you need deterministic summaries of Relay cycle state, metric readiness, or intervention-versus-baseline comparison.
+
+Load `references/analysis-workflows.md` when you need the canonical metric checklist.
+
+# When not to use this block
+
+Do not use this block to manage lifecycle transitions or author participant content.
 
 # Inputs expected
 
-- cycle id
-- desired export mode
+- one or more cycle ids
+- optional export mode when deeper artifact inspection is needed
 
-# Steps
+# Workflow
 
-1. Generate the relevant export through the API or CLI.
-2. Inspect the metrics block on the cycle.
-3. Compare exposure concentration, reply concentration, contributor coverage, bridge exposure, explanation engagement, and abandonment.
+1. Use `scripts/metrics-summary.mjs` for one-cycle summaries.
+2. Use `scripts/compare-cycles.mjs` for side-by-side condition comparison.
+3. If a required export artifact is missing, generate it first through the Relay CLI or API.
+4. Report missing metrics explicitly rather than inferring values.
+
+# Available scripts
+
+- `scripts/metrics-summary.mjs <cycle-id>`: summarize counts, metric values, and export availability for one cycle
+- `scripts/compare-cycles.mjs <cycle-id> <cycle-id> [...]`: compare multiple cycles on the canonical analysis fields
 
 # Outputs
 
 - metrics summary
-- analysis export
-- audit or minimal export when needed
+- comparable condition snapshots
+- explicit gaps when telemetry or metrics are incomplete
 
 # Failure handling
 

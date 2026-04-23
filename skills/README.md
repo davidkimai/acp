@@ -21,4 +21,6 @@ Current blocks:
 - `pilot-analysis`
 - `relay-openclaw`
 
+High-value workflow blocks now include bounded `references/` and executable `scripts/` where deterministic helper behavior is useful.
+
 These blocks are meant to compose over the application runtime, not replace it.
